@@ -1,8 +1,8 @@
 #pragma once
 #include <JuceHeader.h>
 
-class HayesDelayAudioProcessor  :  public AudioProcessor,
-                                    public AudioProcessorValueTreeState::Listener
+class HayesDelayAudioProcessor : public AudioProcessor
+                               , public AudioProcessorValueTreeState::Listener
 {
 public:
     HayesDelayAudioProcessor();

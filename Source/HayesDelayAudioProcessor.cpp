@@ -8,7 +8,7 @@ String HayesDelayAudioProcessor::paramFeedback ("feedback");
 
 
 HayesDelayAudioProcessor::HayesDelayAudioProcessor()
-  : mState (*this, &mUndoManager, "HayesDelay",
+:   mState (*this, &mUndoManager, "HayesDelay",
           {
               std::make_unique<AudioParameterFloat>(paramGain,
                                                     TRANS ("Input Gain"),

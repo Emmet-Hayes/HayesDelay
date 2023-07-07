@@ -19,6 +19,7 @@
       <FILE id="AgWYpN" name="HayesDelayAudioProcessorEditor.h" compile="0"
             resource="0" file="Source/HayesDelayAudioProcessorEditor.h"/>
     </GROUP>
+    <FILE id="v6cGCw" name="bg_file.jpg" compile="0" resource="1" file="Images/bg_file.jpg"/>
   </MAINGROUP>
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX" vstFolder="">
