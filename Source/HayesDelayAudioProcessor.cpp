@@ -8,27 +8,7 @@ String HayesDelayAudioProcessor::paramFeedback ("feedback");
 
 
 HayesDelayAudioProcessor::HayesDelayAudioProcessor()
-:   mState (*this, &mUndoManager, "HayesDelay",
-          {
-              std::make_unique<AudioParameterFloat>(paramGain,
-                                                    TRANS ("Input Gain"),
-                                                    NormalisableRange<float>(-100.0f, 6.0f, 0.1f, std::log (0.5f) / std::log (100.0f / 106.0f)),
-                                                    mGain.get(), "dB",
-                                                    AudioProcessorParameter::genericParameter,
-                                                    [](float v, int) { return String (v, 1) + " dB"; },
-                                                    [](const String& t) { return t.dropLastCharacters (3).getFloatValue(); }),
-              std::make_unique<AudioParameterFloat>(paramTime,
-                                                    TRANS ("Delay TIme"),    NormalisableRange<float>(0.0, 2000.0, 1.0),
-                                                    mTime.get(), "ms",
-                                                    AudioProcessorParameter::genericParameter,
-                                                    [](float v, int) { return String (roundToInt (v)) + " ms"; },
-                                                    [](const String& t) { return t.dropLastCharacters (3).getFloatValue(); }),
-              std::make_unique<AudioParameterFloat>(paramFeedback,
-                                                    TRANS ("Feedback Gain"), NormalisableRange<float>(-100.0f, 6.0f, 0.1f, std::log (0.5f) / std::log (100.0f / 106.0f)),
-                                                    mFeedback.get(), "dB", AudioProcessorParameter::genericParameter,
-                                                    [](float v, int) { return String (v, 1) + " dB"; },
-                                                    [](const String& t) { return t.dropLastCharacters (3).getFloatValue(); })
-          })
+:   mState (*this, &mUndoManager, "HayesDelay", createParameterLayout())
 {
     mState.addParameterListener (paramGain, this);
     mState.addParameterListener (paramTime, this);
@@ -173,6 +153,30 @@ void HayesDelayAudioProcessor::readFromDelayBuffer (AudioSampleBuffer& buffer,
             buffer.addFromWithRamp (channelOut, midPos, mDelayBuffer.getReadPointer (channelIn), buffer.getNumSamples() - midPos, midGain, endGain);
         }
     }
+}
+
+AudioProcessorValueTreeState::ParameterLayout HayesDelayAudioProcessor::createParameterLayout()
+{
+    AudioProcessorValueTreeState::ParameterLayout layout;
+    layout.add(std::make_unique<AudioParameterFloat>(paramGain,
+                                                     TRANS("Input Gain"),
+                                                     NormalisableRange<float>(-100.0f, 6.0f, 0.1f, std::log(0.5f) / std::log(100.0f / 106.0f)),
+                                                     mGain.get(), "dB",
+                                                     AudioProcessorParameter::genericParameter,
+                                                     [](float v, int) { return String(v, 1) + " dB"; },
+                                                     [](const String& t) { return t.dropLastCharacters(3).getFloatValue(); }));
+    layout.add(std::make_unique<AudioParameterFloat>(paramTime,
+                                                     TRANS("Delay TIme"), NormalisableRange<float>(0.0, 2000.0, 1.0),
+                                                     mTime.get(), "ms",
+                                                     AudioProcessorParameter::genericParameter,
+                                                     [](float v, int) { return String(roundToInt(v)) + " ms"; },
+                                                     [](const String& t) { return t.dropLastCharacters(3).getFloatValue(); }));
+    layout.add(std::make_unique<AudioParameterFloat>(paramFeedback,
+                                                     TRANS("Feedback Gain"), NormalisableRange<float>(-100.0f, 6.0f, 0.1f, std::log(0.5f) / std::log(100.0f / 106.0f)),
+                                                     mFeedback.get(), "dB", AudioProcessorParameter::genericParameter,
+                                                     [](float v, int) { return String(v, 1) + " dB"; },
+                                                     [](const String& t) { return t.dropLastCharacters(3).getFloatValue(); }));
+    return layout;
 }
 
 AudioProcessorEditor* HayesDelayAudioProcessor::createEditor()

@@ -1,8 +1,8 @@
 #pragma once
 #include <JuceHeader.h>
 
-class HayesDelayAudioProcessor : public AudioProcessor
-                               , public AudioProcessorValueTreeState::Listener
+class HayesDelayAudioProcessor : public juce::AudioProcessor
+                               , public juce::AudioProcessorValueTreeState::Listener
 {
 public:
     HayesDelayAudioProcessor();
@@ -10,14 +10,14 @@ public:
     void releaseResources() override {};
     bool isBusesLayoutSupported(const BusesLayout& layouts) const override { return true; }
     bool hasEditor() const override { return true; }
-    const String getName() const override { return JucePlugin_Name; }
+    const juce::String getName() const override { return JucePlugin_Name; }
     bool acceptsMidi() const override { return false; }
     bool producesMidi() const override { return false; }
     double getTailLengthSeconds() const override { return 2.0; }
     int getNumPrograms() override { return 1; }
     int getCurrentProgram() override { return 0; }
     void setCurrentProgram(int index) override {}
-    const String getProgramName(int index) override { return String(); }
+    const juce::String getProgramName(int index) override { return String(); }
     void changeProgramName(int index, const String& newName) override {};
 
     void parameterChanged(const String& parameterID, float newValue) override;
@@ -45,6 +45,8 @@ private:
         const int readPos,
         float startGain, float endGain,
         bool replacing);
+
+    AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
     Atomic<float>   mGain     {   0.0f };
     Atomic<float>   mTime     { 200.0f };

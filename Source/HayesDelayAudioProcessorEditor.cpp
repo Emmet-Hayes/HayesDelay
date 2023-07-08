@@ -10,6 +10,11 @@ HayesDelayAudioProcessorEditor::HayesDelayAudioProcessorEditor (HayesDelayAudioP
     addAndMakeVisible(mFeedbackSlider);
     image = juce::ImageCache::getFromMemory(BinaryData::bg_file_jpg, BinaryData::bg_file_jpgSize);
     setSize(400, 250);
+
+    using Attachment = AudioProcessorValueTreeState::SliderAttachment;
+    mTimeAttachment = std::make_unique<Attachment>(processor.getValueTreeState(), HayesDelayAudioProcessor::paramTime, mTimeSlider);
+    mFeedbackAttachment = std::make_unique<Attachment>(processor.getValueTreeState(), HayesDelayAudioProcessor::paramFeedback, mFeedbackSlider);
+    mGainAttachment = std::make_unique<Attachment>(processor.getValueTreeState(), HayesDelayAudioProcessor::paramGain, mGainSlider);
 }
 
 void HayesDelayAudioProcessorEditor::paint (Graphics& g)

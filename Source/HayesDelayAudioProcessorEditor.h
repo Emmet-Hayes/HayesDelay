@@ -19,9 +19,9 @@ private:
     Slider mTimeSlider      { Slider::RotaryHorizontalVerticalDrag,  Slider::TextBoxBelow };
     Slider mFeedbackSlider  { Slider::RotaryHorizontalVerticalDrag,  Slider::TextBoxBelow };
 
-    AudioProcessorValueTreeState::SliderAttachment mGainAttachment      { processor.getValueTreeState(), HayesDelayAudioProcessor::paramGain,     mGainSlider };
-    AudioProcessorValueTreeState::SliderAttachment mTimeAttachment      { processor.getValueTreeState(), HayesDelayAudioProcessor::paramTime,     mTimeSlider };
-    AudioProcessorValueTreeState::SliderAttachment mFeedbackAttachment  { processor.getValueTreeState(), HayesDelayAudioProcessor::paramFeedback, mFeedbackSlider };
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> mGainAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> mTimeAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> mFeedbackAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (HayesDelayAudioProcessorEditor)
 };
