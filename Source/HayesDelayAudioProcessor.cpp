@@ -53,10 +53,6 @@ void HayesDelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
             writeToDelayBuffer (buffer, inputChannelNum, i, mWritePos, 1.0f, 1.0f, true);
         }
 
-        
-        //buffer.applyGainRamp (0, buffer.getNumSamples(), mLastInputGain, gain); // adapt dry gain
-        //mLastInputGain = gain;
-
         auto readPos = roundToInt (mWritePos - (mSampleRate * time / 1000.0)); // read delayed signal
         if (readPos < 0)
             readPos += mDelayBuffer.getNumSamples();
