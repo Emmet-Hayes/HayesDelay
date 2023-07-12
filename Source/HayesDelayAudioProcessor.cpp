@@ -38,6 +38,9 @@ void HayesDelayAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBl
 
 void HayesDelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
+    juce::AudioBuffer<float> dryBuffer;
+    dryBuffer.makeCopyOf(buffer, true);
+
     if (Bus* inputBus = getBus (true, 0))
     {
         const float gain = Decibels::decibelsToGain (mGain.get());
@@ -51,8 +54,8 @@ void HayesDelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
         }
 
         
-        buffer.applyGainRamp (0, buffer.getNumSamples(), mLastInputGain, gain); // adapt dry gain
-        mLastInputGain = gain;
+        //buffer.applyGainRamp (0, buffer.getNumSamples(), mLastInputGain, gain); // adapt dry gain
+        //mLastInputGain = gain;
 
         auto readPos = roundToInt (mWritePos - (mSampleRate * time / 1000.0)); // read delayed signal
         if (readPos < 0)
@@ -94,6 +97,13 @@ void HayesDelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
         mExpectedReadPos = readPos + buffer.getNumSamples();
         if (mExpectedReadPos >= mDelayBuffer.getNumSamples())
             mExpectedReadPos -= mDelayBuffer.getNumSamples();
+
+        // finally, mix dry (copied before processing) and wet (current buffer)
+        for (int channel = 0; channel < buffer.getNumChannels(); ++channel)
+        {
+            buffer.applyGain(channel, 0, buffer.getNumSamples(), mGain.get());
+            buffer.addFromWithRamp(channel, 0, dryBuffer.getReadPointer(channel), dryBuffer.getNumSamples(), 1.0f - mGain.get(), 1.0f - mGain.get());
+        }
     }
 }
 
@@ -159,20 +169,17 @@ AudioProcessorValueTreeState::ParameterLayout HayesDelayAudioProcessor::createPa
 {
     AudioProcessorValueTreeState::ParameterLayout layout;
     layout.add(std::make_unique<AudioParameterFloat>(paramGain,
-                                                     TRANS("Input Gain"),
-                                                     NormalisableRange<float>(-100.0f, 6.0f, 0.1f, std::log(0.5f) / std::log(100.0f / 106.0f)),
-                                                     mGain.get(), "dB",
+                                                     TRANS("Dry/Wet"), NormalisableRange<float>(0.0f, 1.0f, 0.01f), mGain.get(), "dB",
                                                      AudioProcessorParameter::genericParameter,
-                                                     [](float v, int) { return String(v, 1) + " dB"; },
+                                                     [](float v, int) { return String(std::round(v * 100), 1) + "%"; },
                                                      [](const String& t) { return t.dropLastCharacters(3).getFloatValue(); }));
     layout.add(std::make_unique<AudioParameterFloat>(paramTime,
-                                                     TRANS("Delay TIme"), NormalisableRange<float>(0.0, 2000.0, 1.0),
-                                                     mTime.get(), "ms",
+                                                     TRANS("Delay TIme"), NormalisableRange<float>(0.0, 2000.0, 1.0), mTime.get(), "ms",
                                                      AudioProcessorParameter::genericParameter,
                                                      [](float v, int) { return String(roundToInt(v)) + " ms"; },
                                                      [](const String& t) { return t.dropLastCharacters(3).getFloatValue(); }));
     layout.add(std::make_unique<AudioParameterFloat>(paramFeedback,
-                                                     TRANS("Feedback Gain"), NormalisableRange<float>(-100.0f, 6.0f, 0.1f, std::log(0.5f) / std::log(100.0f / 106.0f)),
+                                                     TRANS("Feedback Gain"), NormalisableRange<float>(-100.0f, -1.0f, 0.01f, std::log(0.5f) / std::log(100.0f / 106.0f)),
                                                      mFeedback.get(), "dB", AudioProcessorParameter::genericParameter,
                                                      [](float v, int) { return String(v, 1) + " dB"; },
                                                      [](const String& t) { return t.dropLastCharacters(3).getFloatValue(); }));

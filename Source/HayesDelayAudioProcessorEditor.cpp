@@ -30,7 +30,7 @@ void HayesDelayAudioProcessorEditor::paint (Graphics& g)
     const auto width = box.getWidth() / 3;
     g.drawFittedText (TRANS ("Time"), box.removeFromLeft(width), Justification::centred, 1);
     g.drawFittedText (TRANS ("Feedback"), box.removeFromLeft(width), Justification::centred, 1);
-    g.drawFittedText (TRANS ("Dry"), box.removeFromLeft(width), Justification::centred, 1);
+    g.drawFittedText (TRANS ("Dry/Wet"), box.removeFromLeft(width), Justification::centred, 1);
 }
 
 void HayesDelayAudioProcessorEditor::resized()
