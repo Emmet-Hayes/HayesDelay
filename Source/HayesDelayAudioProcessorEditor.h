@@ -1,6 +1,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "HayesDelayAudioProcessor.h"
+#include "CustomLookAndFeel.h"
 
 class HayesDelayAudioProcessorEditor  : public AudioProcessorEditor
 {
@@ -12,6 +13,8 @@ public:
 
 private:
     HayesDelayAudioProcessor& processor;
+    
+    CustomLookAndFeel customLookAndFeel;
     
     juce::Image image;
     

@@ -5,9 +5,12 @@
 HayesDelayAudioProcessorEditor::HayesDelayAudioProcessorEditor (HayesDelayAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p)
 {
-    addAndMakeVisible(mGainSlider);
+    mTimeSlider.setLookAndFeel(&customLookAndFeel);
+    mFeedbackSlider.setLookAndFeel(&customLookAndFeel);
+    mGainSlider.setLookAndFeel(&customLookAndFeel);
     addAndMakeVisible(mTimeSlider);
     addAndMakeVisible(mFeedbackSlider);
+    addAndMakeVisible(mGainSlider);
     image = juce::ImageCache::getFromMemory(BinaryData::bg_file_jpg, BinaryData::bg_file_jpgSize);
     setSize(400, 250);
 
@@ -22,7 +25,7 @@ void HayesDelayAudioProcessorEditor::paint (Graphics& g)
     g.drawImage(image, 0, 0, getWidth(), getHeight(), 0, 0, 800, 500);
 
     g.setColour (Colours::silver);
-    g.setFont   (24.0f);
+    g.setFont   (juce::Font("Lucida Console", 16.f, juce::Font::bold));
 
     auto box = getLocalBounds().reduced (20);
     box = box.withTop(box.getBottom() - 40);

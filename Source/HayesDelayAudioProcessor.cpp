@@ -8,11 +8,11 @@ String HayesDelayAudioProcessor::paramFeedback ("feedback");
 
 
 HayesDelayAudioProcessor::HayesDelayAudioProcessor()
-:   mState (*this, &mUndoManager, "HayesDelay", createParameterLayout())
+:   apvts (*this, &mUndoManager, "HayesDelay", createParameterLayout())
 {
-    mState.addParameterListener (paramGain, this);
-    mState.addParameterListener (paramTime, this);
-    mState.addParameterListener (paramFeedback, this);
+    apvts.addParameterListener (paramGain, this);
+    apvts.addParameterListener (paramTime, this);
+    apvts.addParameterListener (paramFeedback, this);
 }
 
 void HayesDelayAudioProcessor::parameterChanged(const String& parameterID, float newValue)
@@ -30,13 +30,13 @@ void HayesDelayAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBl
     mSampleRate = sampleRate;
 
     // sample buffer for 2 seconds + 2 buffers safety
-    mDelayBuffer.setSize (getTotalNumOutputChannels(), TAIL_LENGTH * (samplesPerBlock + sampleRate), false, false);
+    mDelayBuffer.setSize (getTotalNumOutputChannels(), static_cast<int>(TAIL_LENGTH * (samplesPerBlock + sampleRate)), false, false);
     mDelayBuffer.clear();
 
     mExpectedReadPos = -1;
 }
 
-void HayesDelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
+void HayesDelayAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& /*midiMessages*/)
 {
     juce::AudioBuffer<float> dryBuffer;
     dryBuffer.makeCopyOf(buffer, true);
@@ -103,7 +103,7 @@ void HayesDelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
     }
 }
 
-void HayesDelayAudioProcessor::writeToDelayBuffer (AudioSampleBuffer& buffer,
+void HayesDelayAudioProcessor::writeToDelayBuffer(AudioSampleBuffer& buffer,
                                                   const int channelIn, const int channelOut,
                                                   const int writePos, float startGain, float endGain, bool replacing)
 {
@@ -131,7 +131,7 @@ void HayesDelayAudioProcessor::writeToDelayBuffer (AudioSampleBuffer& buffer,
     }
 }
 
-void HayesDelayAudioProcessor::readFromDelayBuffer (AudioSampleBuffer& buffer,
+void HayesDelayAudioProcessor::readFromDelayBuffer(AudioSampleBuffer& buffer,
                                                    const int channelIn, const int channelOut,
                                                    const int readPos,
                                                    float startGain, float endGain,
@@ -184,20 +184,20 @@ AudioProcessorValueTreeState::ParameterLayout HayesDelayAudioProcessor::createPa
 
 AudioProcessorEditor* HayesDelayAudioProcessor::createEditor()
 {
-    return new HayesDelayAudioProcessorEditor (*this);
+    return new HayesDelayAudioProcessorEditor(*this);
 }
 
 void HayesDelayAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
     MemoryOutputStream stream(destData, false);
-    mState.state.writeToStream (stream);
+    apvts.state.writeToStream(stream);
 }
 
 void HayesDelayAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     ValueTree tree = ValueTree::readFromData(data, sizeInBytes);
     if (tree.isValid())
-        mState.state = tree;
+        apvts.state = tree;
 }
 
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()

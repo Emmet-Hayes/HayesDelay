@@ -10,6 +10,10 @@
               displaySplashScreen="1" jucerFormatVersion="1" companyName="EmmetSoft">
   <MAINGROUP id="F25xsz" name="HayesDelay">
     <GROUP id="{6B4C2B33-3E03-2019-826E-A12C653A4BA8}" name="Source">
+      <FILE id="lu9Q6U" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/CustomLookAndFeel.cpp"/>
+      <FILE id="oYEl1u" name="CustomLookAndFeel.h" compile="0" resource="0"
+            file="Source/CustomLookAndFeel.h"/>
       <FILE id="cZr3Al" name="HayesDelayAudioProcessor.h" compile="0" resource="0"
             file="Source/HayesDelayAudioProcessor.h"/>
       <FILE id="WNu2jK" name="HayesDelayAudioProcessor.cpp" compile="1" resource="0"
