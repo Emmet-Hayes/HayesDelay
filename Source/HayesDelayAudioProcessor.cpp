@@ -5,6 +5,8 @@
 String HayesDelayAudioProcessor::paramGain     ("gain");
 String HayesDelayAudioProcessor::paramTime     ("time");
 String HayesDelayAudioProcessor::paramFeedback ("feedback");
+String HayesDelayAudioProcessor::paramPanning  ("pan");
+String HayesDelayAudioProcessor::paramWobble   ("wobble");
 
 
 HayesDelayAudioProcessor::HayesDelayAudioProcessor()
@@ -13,6 +15,8 @@ HayesDelayAudioProcessor::HayesDelayAudioProcessor()
     apvts.addParameterListener (paramGain, this);
     apvts.addParameterListener (paramTime, this);
     apvts.addParameterListener (paramFeedback, this);
+    apvts.addParameterListener (paramPanning, this);
+    apvts.addParameterListener (paramWobble, this);
 }
 
 void HayesDelayAudioProcessor::parameterChanged(const String& parameterID, float newValue)
@@ -23,6 +27,10 @@ void HayesDelayAudioProcessor::parameterChanged(const String& parameterID, float
         mTime = newValue;
     else if (parameterID == paramFeedback)
         mFeedback = newValue;
+    else if (parameterID == paramPanning)
+        mPanning = newValue;
+    else if (parameterID == paramWobble)
+        mWobble = newValue;
 }
 
 void HayesDelayAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
@@ -43,9 +51,9 @@ void HayesDelayAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffe
 
     if (Bus* inputBus = getBus (true, 0))
     {
-        const float gain = Decibels::decibelsToGain (mGain.get());
         const float time = mTime.get();
         const float feedback = Decibels::decibelsToGain (mFeedback.get());
+        const float gain = Decibels::decibelsToGain(mGain.get());
 
         for (int i=0; i < mDelayBuffer.getNumChannels(); ++i) // write original to delay
         {
@@ -93,12 +101,18 @@ void HayesDelayAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffe
         mExpectedReadPos = readPos + buffer.getNumSamples();
         if (mExpectedReadPos >= mDelayBuffer.getNumSamples())
             mExpectedReadPos -= mDelayBuffer.getNumSamples();
-
         // finally, mix dry (copied before processing) and wet (current buffer)
         for (int channel = 0; channel < buffer.getNumChannels(); ++channel)
         {
-            buffer.applyGain(channel, 0, buffer.getNumSamples(), mGain.get());
-            buffer.addFromWithRamp(channel, 0, dryBuffer.getReadPointer(channel), dryBuffer.getNumSamples(), 1.0f - mGain.get(), 1.0f - mGain.get());
+            float panGain = 0.0f;
+            if (channel == 0)
+                panGain = (1 - mPanning.get());
+            else
+                panGain = mPanning.get();
+            float dryGain = mGain.get() * panGain;
+            float wetGain = (1.0f - mGain.get());
+            buffer.applyGain(channel, 0, buffer.getNumSamples(), dryGain);
+            buffer.addFromWithRamp(channel, 0, dryBuffer.getReadPointer(channel), dryBuffer.getNumSamples(), wetGain, wetGain);
         }
     }
 }
@@ -179,6 +193,25 @@ AudioProcessorValueTreeState::ParameterLayout HayesDelayAudioProcessor::createPa
                                                      mFeedback.get(), "dB", AudioProcessorParameter::genericParameter,
                                                      [](float v, int) { return String(v, 1) + " dB"; },
                                                      [](const String& t) { return t.dropLastCharacters(3).getFloatValue(); }));
+    layout.add(std::make_unique<AudioParameterFloat>(paramPanning,
+                                                     TRANS("Panning"), NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.5f, "",
+                                                     AudioProcessorParameter::genericParameter,
+                                                     [](float v, int) { 
+                                                         int val = roundToInt(v * 100);
+                                                         if (val > 50)
+                                                             return String(val - 50) + "R";
+                                                         else if (val < 50)
+                                                             return String(-(val - 50)) + "L";
+                                                         else
+                                                             return String("0C");
+                                                     },
+                                                     [](const String& t) { return t.dropLastCharacters(1).getFloatValue() / 100.0f; }));
+    layout.add(std::make_unique<AudioParameterFloat>(paramWobble,
+        TRANS("Modulation Depth"), NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.0f, "",
+        AudioProcessorParameter::genericParameter,
+        [](float v, int) { return String(roundToInt(v * 100)) + "%"; },
+        [](const String& t) { return t.getFloatValue() / 100.0f; }));
+
     return layout;
 }
 

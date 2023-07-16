@@ -32,6 +32,8 @@ public:
     static juce::String paramGain;
     static juce::String paramTime;
     static juce::String paramFeedback;
+    static juce::String paramPanning;
+    static juce::String paramWobble;
 
 private:
     void writeToDelayBuffer(AudioSampleBuffer& buffer,
@@ -51,6 +53,8 @@ private:
     juce::Atomic<float> mGain     {   0.0f };
     juce::Atomic<float> mTime     { 200.0f };
     juce::Atomic<float> mFeedback {  -6.0f };
+    juce::Atomic<float> mPanning  { 0.5f };
+    juce::Atomic<float> mWobble   { 0.0f };
 
     float mLastInputGain    { 0.0f };
     float mLastFeedbackGain { 0.0f };
