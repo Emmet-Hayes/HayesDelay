@@ -33,7 +33,8 @@ public:
     static juce::String paramTime;
     static juce::String paramFeedback;
     static juce::String paramPanning;
-    static juce::String paramWobble;
+
+    juce::AudioProcessorValueTreeState apvts;
 
 private:
     void writeToDelayBuffer(AudioSampleBuffer& buffer,
@@ -66,7 +67,6 @@ private:
     const double TAIL_LENGTH   { 2.0 };
     
     juce::UndoManager                  mUndoManager;
-    juce::AudioProcessorValueTreeState apvts;
     juce::AudioSampleBuffer            mDelayBuffer;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (HayesDelayAudioProcessor)

@@ -2,6 +2,7 @@
 #include <JuceHeader.h>
 #include "HayesDelayAudioProcessor.h"
 #include "CustomLookAndFeel.h"
+#include "PresetBar.h"
 
 class HayesDelayAudioProcessorEditor  : public AudioProcessorEditor
 {
@@ -17,6 +18,8 @@ private:
     CustomLookAndFeel customLookAndFeel;
     
     juce::Image image;
+
+    PresetBar presetBar;
     
     Slider mGainSlider      { Slider::RotaryHorizontalVerticalDrag,  Slider::TextBoxBelow };
     Slider mTimeSlider      { Slider::RotaryHorizontalVerticalDrag,  Slider::TextBoxBelow };

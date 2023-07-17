@@ -6,7 +6,6 @@ String HayesDelayAudioProcessor::paramGain     ("gain");
 String HayesDelayAudioProcessor::paramTime     ("time");
 String HayesDelayAudioProcessor::paramFeedback ("feedback");
 String HayesDelayAudioProcessor::paramPanning  ("pan");
-String HayesDelayAudioProcessor::paramWobble   ("wobble");
 
 
 HayesDelayAudioProcessor::HayesDelayAudioProcessor()
@@ -16,7 +15,6 @@ HayesDelayAudioProcessor::HayesDelayAudioProcessor()
     apvts.addParameterListener (paramTime, this);
     apvts.addParameterListener (paramFeedback, this);
     apvts.addParameterListener (paramPanning, this);
-    apvts.addParameterListener (paramWobble, this);
 }
 
 void HayesDelayAudioProcessor::parameterChanged(const String& parameterID, float newValue)
@@ -29,8 +27,6 @@ void HayesDelayAudioProcessor::parameterChanged(const String& parameterID, float
         mFeedback = newValue;
     else if (parameterID == paramPanning)
         mPanning = newValue;
-    else if (parameterID == paramWobble)
-        mWobble = newValue;
 }
 
 void HayesDelayAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
@@ -206,11 +202,6 @@ AudioProcessorValueTreeState::ParameterLayout HayesDelayAudioProcessor::createPa
                                                              return String("0C");
                                                      },
                                                      [](const String& t) { return t.dropLastCharacters(1).getFloatValue() / 100.0f; }));
-    layout.add(std::make_unique<AudioParameterFloat>(paramWobble,
-        TRANS("Modulation Depth"), NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.0f, "",
-        AudioProcessorParameter::genericParameter,
-        [](float v, int) { return String(roundToInt(v * 100)) + "%"; },
-        [](const String& t) { return t.getFloatValue() / 100.0f; }));
 
     return layout;
 }

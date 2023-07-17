@@ -3,16 +3,21 @@
 
 
 HayesDelayAudioProcessorEditor::HayesDelayAudioProcessorEditor (HayesDelayAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p)
+:   AudioProcessorEditor (&p)
+,   processor (p)
+,   presetBar (p)
 {
     mTimeSlider.setLookAndFeel    (&customLookAndFeel);
     mFeedbackSlider.setLookAndFeel(&customLookAndFeel);
     mGainSlider.setLookAndFeel    (&customLookAndFeel);
     mPanningSlider.setLookAndFeel (&customLookAndFeel);
+    presetBar.setLookAndFeel(&customLookAndFeel);
+
     addAndMakeVisible(mTimeSlider);
     addAndMakeVisible(mFeedbackSlider);
     addAndMakeVisible(mGainSlider);
     addAndMakeVisible(mPanningSlider);
+    addAndMakeVisible(presetBar);
 
     image = juce::ImageCache::getFromMemory(BinaryData::bg_file_jpg, BinaryData::bg_file_jpgSize);
     setSize(400, 250);
@@ -42,7 +47,9 @@ void HayesDelayAudioProcessorEditor::paint (Graphics& g)
 
 void HayesDelayAudioProcessorEditor::resized()
 {
+    presetBar.setBounds(0, 0, 400, 20);
     auto box = getLocalBounds().reduced(20);
+    box.removeFromTop(20);
     box.removeFromBottom(40);
 
     const auto width = box.getWidth() / 4;

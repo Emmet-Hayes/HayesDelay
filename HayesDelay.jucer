@@ -7,9 +7,16 @@
               pluginIsMidiEffectPlugin="0" pluginEditorRequiresKeys="0" pluginRTASCategory=""
               pluginAAXCategory="16" pluginVSTCategory="kPlugCategEffect" buildStandalone="1"
               enableIAA="0" pluginFormats="buildAU,buildStandalone,buildVST3"
-              displaySplashScreen="1" jucerFormatVersion="1" companyName="EmmetSoft">
+              displaySplashScreen="1" jucerFormatVersion="1" companyName="EmmetSoft"
+              defines="JUCE_MODAL_LOOPS_PERMITTED=1">
   <MAINGROUP id="F25xsz" name="HayesDelay">
     <GROUP id="{6B4C2B33-3E03-2019-826E-A12C653A4BA8}" name="Source">
+      <FILE id="xDKAmX" name="PresetComboBox.cpp" compile="1" resource="0"
+            file="Source/PresetComboBox.cpp"/>
+      <FILE id="YD3zYA" name="PresetComboBox.h" compile="0" resource="0"
+            file="Source/PresetComboBox.h"/>
+      <FILE id="etwNdc" name="PresetBar.cpp" compile="1" resource="0" file="Source/PresetBar.cpp"/>
+      <FILE id="pOPEXk" name="PresetBar.h" compile="0" resource="0" file="Source/PresetBar.h"/>
       <FILE id="lu9Q6U" name="CustomLookAndFeel.cpp" compile="1" resource="0"
             file="Source/CustomLookAndFeel.cpp"/>
       <FILE id="oYEl1u" name="CustomLookAndFeel.h" compile="0" resource="0"
