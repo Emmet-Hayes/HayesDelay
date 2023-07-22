@@ -3,9 +3,9 @@
 
 
 HayesDelayAudioProcessorEditor::HayesDelayAudioProcessorEditor (HayesDelayAudioProcessor& p)
-:   AudioProcessorEditor (&p)
-,   processor (p)
-,   presetBar (p)
+:   BaseAudioProcessorEditor { p }
+,   processor { p }
+,   presetBar { p }
 {
     mTimeSlider.setLookAndFeel    (&customLookAndFeel);
     mFeedbackSlider.setLookAndFeel(&customLookAndFeel);

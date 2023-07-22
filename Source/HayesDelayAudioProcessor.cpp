@@ -9,7 +9,7 @@ String HayesDelayAudioProcessor::paramPanning  ("pan");
 
 
 HayesDelayAudioProcessor::HayesDelayAudioProcessor()
-:   apvts (*this, &mUndoManager, "HayesDelay", createParameterLayout())
+:   BaseAudioProcessor(createParameterLayout())
 {
     apvts.addParameterListener (paramGain, this);
     apvts.addParameterListener (paramTime, this);
@@ -209,19 +209,6 @@ AudioProcessorValueTreeState::ParameterLayout HayesDelayAudioProcessor::createPa
 AudioProcessorEditor* HayesDelayAudioProcessor::createEditor()
 {
     return new HayesDelayAudioProcessorEditor(*this);
-}
-
-void HayesDelayAudioProcessor::getStateInformation (MemoryBlock& destData)
-{
-    MemoryOutputStream stream(destData, false);
-    apvts.state.writeToStream(stream);
-}
-
-void HayesDelayAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
-{
-    ValueTree tree = ValueTree::readFromData(data, sizeInBytes);
-    if (tree.isValid())
-        apvts.state = tree;
 }
 
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()

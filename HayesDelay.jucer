@@ -6,21 +6,31 @@
               pluginIsSynth="0" pluginWantsMidiIn="0" pluginProducesMidiOut="0"
               pluginIsMidiEffectPlugin="0" pluginEditorRequiresKeys="0" pluginRTASCategory=""
               pluginAAXCategory="16" pluginVSTCategory="kPlugCategEffect" buildStandalone="1"
-              enableIAA="0" pluginFormats="buildAU,buildStandalone,buildVST3"
+              enableIAA="0" pluginFormats="buildAU,buildLV2,buildStandalone,buildVST3"
               displaySplashScreen="1" jucerFormatVersion="1" companyName="EmmetSoft"
               defines="JUCE_MODAL_LOOPS_PERMITTED=1">
   <MAINGROUP id="F25xsz" name="HayesDelay">
     <GROUP id="{6B4C2B33-3E03-2019-826E-A12C653A4BA8}" name="Source">
-      <FILE id="xDKAmX" name="PresetComboBox.cpp" compile="1" resource="0"
-            file="Source/PresetComboBox.cpp"/>
-      <FILE id="YD3zYA" name="PresetComboBox.h" compile="0" resource="0"
-            file="Source/PresetComboBox.h"/>
-      <FILE id="etwNdc" name="PresetBar.cpp" compile="1" resource="0" file="Source/PresetBar.cpp"/>
-      <FILE id="pOPEXk" name="PresetBar.h" compile="0" resource="0" file="Source/PresetBar.h"/>
-      <FILE id="lu9Q6U" name="CustomLookAndFeel.cpp" compile="1" resource="0"
-            file="Source/CustomLookAndFeel.cpp"/>
-      <FILE id="oYEl1u" name="CustomLookAndFeel.h" compile="0" resource="0"
-            file="Source/CustomLookAndFeel.h"/>
+      <GROUP id="{5F184A9B-3CF3-8B82-8A3C-1DB1C6C104F5}" name="Common">
+        <FILE id="EtsCGy" name="BaseAudioProcessor.cpp" compile="1" resource="0"
+              file="../Common/BaseAudioProcessor.cpp"/>
+        <FILE id="gDfJ6b" name="BaseAudioProcessor.h" compile="0" resource="0"
+              file="../Common/BaseAudioProcessor.h"/>
+        <FILE id="HZF2fp" name="BaseAudioProcessorEditor.cpp" compile="1" resource="0"
+              file="../Common/BaseAudioProcessorEditor.cpp"/>
+        <FILE id="sWJGjx" name="BaseAudioProcessorEditor.h" compile="0" resource="0"
+              file="../Common/BaseAudioProcessorEditor.h"/>
+        <FILE id="TUSEt9" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+              file="../Common/CustomLookAndFeel.cpp"/>
+        <FILE id="Ua4AcF" name="CustomLookAndFeel.h" compile="0" resource="0"
+              file="../Common/CustomLookAndFeel.h"/>
+        <FILE id="Zr6yws" name="PresetBar.cpp" compile="1" resource="0" file="../Common/PresetBar.cpp"/>
+        <FILE id="nHwhdA" name="PresetBar.h" compile="0" resource="0" file="../Common/PresetBar.h"/>
+        <FILE id="v5tIGg" name="PresetComboBox.cpp" compile="1" resource="0"
+              file="../Common/PresetComboBox.cpp"/>
+        <FILE id="dRNMH7" name="PresetComboBox.h" compile="0" resource="0"
+              file="../Common/PresetComboBox.h"/>
+      </GROUP>
       <FILE id="cZr3Al" name="HayesDelayAudioProcessor.h" compile="0" resource="0"
             file="Source/HayesDelayAudioProcessor.h"/>
       <FILE id="WNu2jK" name="HayesDelayAudioProcessor.cpp" compile="1" resource="0"
@@ -36,11 +46,11 @@
     <XCODE_MAC targetFolder="Builds/MacOSX" vstFolder="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" cppLanguageStandard="c++11"
-                       cppLibType="libc++" osxCompatibility="10.8 SDK" xcodeAaxBinaryLocation="/Applications/ProTools_3PDev/Plug-Ins/"
-                       aaxBinaryLocation="/Applications/ProTools_3PDev/Plug-Ins/" macOSDeploymentTarget="10.8"/>
-        <CONFIGURATION name="Release" isDebug="0" optimisation="3" osxCompatibility="10.8 SDK"
+                       cppLibType="libc++" osxCompatibility="10.9 SDK" xcodeAaxBinaryLocation="/Applications/ProTools_3PDev/Plug-Ins/"
+                       aaxBinaryLocation="/Applications/ProTools_3PDev/Plug-Ins/" macOSDeploymentTarget="10.9"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" osxCompatibility="10.9 SDK"
                        cppLanguageStandard="c++11" cppLibType="libc++" xcodeAaxBinaryLocation="/Applications/ProTools_3PDev/Plug-Ins/"
-                       aaxBinaryLocation="/Applications/ProTools_3PDev/Plug-Ins/" macOSDeploymentTarget="10.8"/>
+                       aaxBinaryLocation="/Applications/ProTools_3PDev/Plug-Ins/" macOSDeploymentTarget="10.9"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>

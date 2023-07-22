@@ -1,31 +1,17 @@
 #pragma once
 #include <JuceHeader.h>
+#include "../../Common/BaseAudioProcessor.h"
 
-class HayesDelayAudioProcessor : public juce::AudioProcessor
+class HayesDelayAudioProcessor : public BaseAudioProcessor
                                , public juce::AudioProcessorValueTreeState::Listener
 {
 public:
     HayesDelayAudioProcessor();
 
-    void releaseResources() override {};
-    bool isBusesLayoutSupported(const BusesLayout& /*layouts*/) const override { return true; }
-    bool hasEditor() const override { return true; }
-    const juce::String getName() const override { return JucePlugin_Name; }
-    bool acceptsMidi() const override { return false; }
-    bool producesMidi() const override { return false; }
-    double getTailLengthSeconds() const override { return 2.0; }
-    int getNumPrograms() override { return 1; }
-    int getCurrentProgram() override { return 0; }
-    void setCurrentProgram(int /*index*/) override {}
-    const juce::String getProgramName(int /*index*/) override { return juce::String(); }
-    void changeProgramName(int /*index*/, const juce::String& /*newName*/) override {};
-
     void parameterChanged(const juce::String& parameterID, float newValue) override;
     void prepareToPlay(double sampleRate, int samplesPerBlock) override;
     void processBlock(juce::AudioSampleBuffer&, MidiBuffer&) override;
     juce::AudioProcessorEditor* createEditor() override;
-    void getStateInformation(MemoryBlock& destData) override;
-    void setStateInformation(const void* data, int sizeInBytes) override;
 
     juce::AudioProcessorValueTreeState& getValueTreeState() { return apvts; }
 
@@ -33,8 +19,6 @@ public:
     static juce::String paramTime;
     static juce::String paramFeedback;
     static juce::String paramPanning;
-
-    juce::AudioProcessorValueTreeState apvts;
 
 private:
     void writeToDelayBuffer(AudioSampleBuffer& buffer,
