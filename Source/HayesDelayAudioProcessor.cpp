@@ -42,6 +42,16 @@ void HayesDelayAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBl
 
 void HayesDelayAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& /*midiMessages*/)
 {
+    juce::ScopedNoDenormals noDenormals;
+    const auto totalNumInputChannels = getTotalNumInputChannels();
+    const auto totalNumOutputChannels = getTotalNumOutputChannels();
+    const auto numSamples = buffer.getNumSamples();
+
+    // Clear buffer
+    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+        buffer.clear(i, 0, numSamples);
+    
+    // Do effect, but copy dry for mix knob
     juce::AudioBuffer<float> dryBuffer;
     dryBuffer.makeCopyOf(buffer, true);
 
@@ -49,7 +59,6 @@ void HayesDelayAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffe
     {
         const float time = mTime.get();
         const float feedback = Decibels::decibelsToGain (mFeedback.get());
-        const float gain = Decibels::decibelsToGain(mGain.get());
 
         for (int i=0; i < mDelayBuffer.getNumChannels(); ++i) // write original to delay
         {

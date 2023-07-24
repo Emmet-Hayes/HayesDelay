@@ -33,7 +33,7 @@ private:
         float startGain, float endGain,
         bool replacing);
 
-    AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout() override;
 
     juce::Atomic<float> mGain     {   0.0f };
     juce::Atomic<float> mTime     { 200.0f };
