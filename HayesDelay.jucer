@@ -5,10 +5,9 @@
               buildAUv3="0" buildRTAS="0" buildAAX="0" pluginChannelConfigs=""
               pluginIsSynth="0" pluginWantsMidiIn="0" pluginProducesMidiOut="0"
               pluginIsMidiEffectPlugin="0" pluginEditorRequiresKeys="0" pluginRTASCategory=""
-              pluginAAXCategory="16" pluginVSTCategory="kPlugCategEffect" buildStandalone="1"
-              enableIAA="0" pluginFormats="buildAU,buildLV2,buildStandalone,buildVST3"
-              displaySplashScreen="1" jucerFormatVersion="1" companyName="EmmetSoft"
-              defines="JUCE_MODAL_LOOPS_PERMITTED=1">
+              pluginAAXCategory="16" pluginVSTCategory="kPlugCategEffect" buildStandalone="0"
+              enableIAA="0" pluginFormats="buildAU,buildVST3" displaySplashScreen="1"
+              jucerFormatVersion="1" companyName="EmmetSoft" defines="JUCE_MODAL_LOOPS_PERMITTED=1">
   <MAINGROUP id="F25xsz" name="HayesDelay">
     <GROUP id="{4E7F081A-60A0-98C7-971B-6FCD4619F1EF}" name="Resources">
       <GROUP id="{CEEAB18A-2E22-C489-77D3-DB094AC0C73C}" name="Images">
@@ -16,6 +15,10 @@
       </GROUP>
     </GROUP>
     <GROUP id="{5F184A9B-3CF3-8B82-8A3C-1DB1C6C104F5}" name="Common">
+      <GROUP id="{78E19AD8-AE3E-E8F8-C5E2-F0C628A36335}" name="Fonts">
+        <FILE id="suCR6D" name="Juliafont-Regular.ttf" compile="0" resource="1"
+              file="../Common/Fonts/Juliafont-Regular.ttf"/>
+      </GROUP>
       <FILE id="EtsCGy" name="BaseAudioProcessor.cpp" compile="1" resource="0"
             file="../Common/BaseAudioProcessor.cpp"/>
       <FILE id="gDfJ6b" name="BaseAudioProcessor.h" compile="0" resource="0"
