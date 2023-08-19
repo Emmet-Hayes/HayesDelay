@@ -29,6 +29,11 @@ HayesDelayAudioProcessorEditor::HayesDelayAudioProcessorEditor (HayesDelayAudioP
     mPanningAttachment  = std::make_unique<Attachment>(processor.getValueTreeState(), HayesDelayAudioProcessor::paramPanning, mPanningSlider);
 }
 
+HayesDelayAudioProcessorEditor::~HayesDelayAudioProcessorEditor()
+{
+    setLookAndFeel(nullptr);
+}
+
 void HayesDelayAudioProcessorEditor::paint (Graphics& g)
 {
     g.drawImage (image, 0, 0, getWidth(), getHeight(), 0, 0, 800, 500);

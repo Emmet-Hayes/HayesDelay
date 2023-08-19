@@ -5,18 +5,19 @@
 #include "../../Common/PresetBar.h"
 #include "../../Common/BaseAudioProcessorEditor.h"
 
-class HayesDelayAudioProcessorEditor  : public BaseAudioProcessorEditor
+class HayesDelayAudioProcessorEditor : public BaseAudioProcessorEditor
 {
 public:
-    HayesDelayAudioProcessorEditor (HayesDelayAudioProcessor&);
+    HayesDelayAudioProcessorEditor(HayesDelayAudioProcessor&);
+    ~HayesDelayAudioProcessorEditor();
 
     void paint (Graphics&) override;
     void resized() override;
 
 private:
-    HayesDelayAudioProcessor& processor;
-    
     CustomLookAndFeel customLookAndFeel;
+    
+    HayesDelayAudioProcessor& processor;
     
     juce::Image image;
 
