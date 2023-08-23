@@ -12,7 +12,6 @@ HayesDelayAudioProcessorEditor::HayesDelayAudioProcessorEditor (HayesDelayAudioP
     auto setup_labeled_slider = [&](juce::Label* label, juce::Slider* slider, const char* labelText)
     {
         slider->setSliderStyle(juce::Slider::Rotary);
-        slider->setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
         addAndMakeVisible(slider);
         label->setText(labelText, juce::dontSendNotification);
         label->attachToComponent(slider, false);
@@ -55,16 +54,18 @@ void HayesDelayAudioProcessorEditor::resized()
 {
     const auto scale = static_cast<float> (getWidth()) / defaultWidth;
 
-    auto setBoundsAndApplyScaling = [&](juce::Component* component, int x, int y, int w, int h)
+    auto setBoundsAndApplyScaling = [&](juce::Component* component, int x, int y, int w, int h, bool isSlider = false)
     {
         component->setBounds(static_cast<int>(x * scale), static_cast<int>(y * scale),
             static_cast<int>(w * scale), static_cast<int>(h * scale));
+        if (isSlider)
+            dynamic_cast<juce::Slider*>(component)->setTextBoxStyle(juce::Slider::TextBoxBelow, false, static_cast<int>(70 * scale), static_cast<int>(20 * scale));
     };
 
     customLookAndFeel.setWindowScale(scale);
     setBoundsAndApplyScaling(&presetBar, 0, 0, 400, 20);
-    setBoundsAndApplyScaling(&timeSlider, 20, 90, 80, 80);
-    setBoundsAndApplyScaling(&feedbackSlider, 110, 90, 80, 80);
-    setBoundsAndApplyScaling(&panningSlider, 200, 90, 80, 80);
-    setBoundsAndApplyScaling(&gainSlider, 290, 90, 80, 80);
+    setBoundsAndApplyScaling(&timeSlider, 20, 90, 80, 80, true);
+    setBoundsAndApplyScaling(&feedbackSlider, 110, 90, 80, 80, true);
+    setBoundsAndApplyScaling(&panningSlider, 200, 90, 80, 80, true);
+    setBoundsAndApplyScaling(&gainSlider, 290, 90, 80, 80, true);
 }
