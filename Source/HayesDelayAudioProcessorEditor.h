@@ -15,6 +15,8 @@ public:
     void resized() override;
 
 private:
+    void addAllGUIComponents();
+
     CustomLookAndFeel customLookAndFeel;
     
     HayesDelayAudioProcessor& processor;

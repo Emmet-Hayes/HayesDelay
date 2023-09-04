@@ -8,7 +8,16 @@ HayesDelayAudioProcessorEditor::HayesDelayAudioProcessorEditor (HayesDelayAudioP
 ,   presetBar { p }
 {
     setLookAndFeel(&customLookAndFeel);
+    addAllGUIComponents();
+}
 
+HayesDelayAudioProcessorEditor::~HayesDelayAudioProcessorEditor()
+{
+    setLookAndFeel(nullptr);
+}
+
+void HayesDelayAudioProcessorEditor::addAllGUIComponents()
+{
     auto setup_labeled_slider = [&](juce::Label* label, juce::Slider* slider, const char* labelText)
     {
         slider->setSliderStyle(juce::Slider::Rotary);
@@ -38,11 +47,6 @@ HayesDelayAudioProcessorEditor::HayesDelayAudioProcessorEditor (HayesDelayAudioP
     getConstrainer()->setFixedAspectRatio(ratio);
     getConstrainer()->setSizeLimits(defaultWidth, defaultHeight, defaultWidth * 2, defaultHeight * 2);
     setSize(defaultWidth, defaultHeight);
-}
-
-HayesDelayAudioProcessorEditor::~HayesDelayAudioProcessorEditor()
-{
-    setLookAndFeel(nullptr);
 }
 
 void HayesDelayAudioProcessorEditor::paint (Graphics& g)
