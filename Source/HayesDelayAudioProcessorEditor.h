@@ -1,9 +1,11 @@
 #pragma once
-#include <JuceHeader.h>
-#include "HayesDelayAudioProcessor.h"
+
 #include "../../Common/CustomLookAndFeel.h"
 #include "../../Common/PresetBar.h"
 #include "../../Common/BaseAudioProcessorEditor.h"
+
+#include "HayesDelayAudioProcessor.h"
+
 
 class HayesDelayAudioProcessorEditor : public BaseAudioProcessorEditor
 {

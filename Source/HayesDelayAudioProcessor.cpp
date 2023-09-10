@@ -2,10 +2,10 @@
 #include "HayesDelayAudioProcessorEditor.h"
 
 
-String HayesDelayAudioProcessor::paramGain     ("gain");
-String HayesDelayAudioProcessor::paramTime     ("time");
-String HayesDelayAudioProcessor::paramFeedback ("feedback");
-String HayesDelayAudioProcessor::paramPanning  ("pan");
+juce::String HayesDelayAudioProcessor::paramGain     ("gain");
+juce::String HayesDelayAudioProcessor::paramTime     ("time");
+juce::String HayesDelayAudioProcessor::paramFeedback ("feedback");
+juce::String HayesDelayAudioProcessor::paramPanning  ("pan");
 
 
 HayesDelayAudioProcessor::HayesDelayAudioProcessor()
